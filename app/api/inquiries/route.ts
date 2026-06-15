@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { generateBookingRef } from "@/lib/utils";
-import { sendInquiryConfirmation } from "@/lib/email";
+import { sendInquiryConfirmation, sendAdminNewInquiryAlert } from "@/lib/email";
 
 const schema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -81,6 +81,18 @@ export async function POST(req: NextRequest) {
       guestCount: inquiry.guestCount,
       notes: inquiry.notes,
     }).catch((err) => console.error("Email send failed:", err));
+
+    sendAdminNewInquiryAlert({
+      bookingRef: inquiry.bookingRef,
+      fullName: inquiry.fullName,
+      mobile: inquiry.mobile,
+      email: inquiry.email,
+      eventDate: inquiry.eventDate,
+      eventStartTime: inquiry.eventStartTime,
+      eventLocation: inquiry.eventLocation,
+      guestCount: inquiry.guestCount,
+      notes: inquiry.notes,
+    }).catch((err) => console.error("Admin alert email failed:", err));
 
     return NextResponse.json({ bookingRef: inquiry.bookingRef }, { status: 201 });
   } catch {
