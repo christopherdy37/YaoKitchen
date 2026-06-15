@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, MapPin, Users, Info } from "lucide-react";
+import { Calendar, Users, Info } from "lucide-react";
 
 const GUEST_OPTIONS = [
   "50 – 80 guests",
@@ -27,21 +27,6 @@ export default function AvailabilityBar() {
               <input
                 type="date"
                 className="w-full rounded-lg bg-white py-3 pl-10 pr-4 font-inter text-sm text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:ring-2 focus:ring-gold"
-              />
-            </div>
-          </div>
-
-          {/* Location */}
-          <div className="flex-1">
-            <label className="mb-1.5 block font-inter text-xs font-medium text-white/80">
-              Location
-            </label>
-            <div className="relative">
-              <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/50" />
-              <input
-                type="text"
-                className="w-full rounded-lg bg-white py-3 pl-10 pr-4 font-inter text-sm text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:ring-2 focus:ring-gold"
-                placeholder="Enter location"
               />
             </div>
           </div>

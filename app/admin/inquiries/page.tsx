@@ -11,6 +11,7 @@ interface Inquiry {
   viber: string | null;
   email: string | null;
   eventDate: string;
+  eventStartTime: string;
   eventLocation: string;
   package: string;
   guestCount: number;
@@ -204,6 +205,10 @@ export default function InquiriesPage() {
                   <p className="mt-0.5 font-inter text-sm text-charcoal">
                     {new Date(selected.eventDate).toLocaleDateString("en-PH", { year: "numeric", month: "long", day: "numeric" })}
                   </p>
+                </div>
+                <div>
+                  <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Start Time</p>
+                  <p className="mt-0.5 font-inter text-sm text-charcoal">{selected.eventStartTime}</p>
                 </div>
                 <div>
                   <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Location</p>

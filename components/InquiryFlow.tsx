@@ -18,11 +18,10 @@ const STEPS = [
 const inquirySchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   mobile: z.string().min(1, "Mobile number is required"),
-  viber: z.string().optional(),
-  email: z.string().optional(),
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
   eventDate: z.string().min(1),
-  eventLocation: z.string().min(1, "Event location is required"),
-  package: z.string().min(1, "Please select a package"),
+  eventStartTime: z.string().min(1, "Event start time is required"),
+  eventLocation: z.string().min(1, "Venue is required"),
   guestCount: z.number().int().min(1, "Enter estimated guest count"),
   notes: z.string().optional(),
 });
@@ -129,17 +128,11 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
       const res = await fetch("/api/inquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          source,
-          partnerSlug: partnerSlug ?? null,
-        }),
+        body: JSON.stringify({ ...data, source, partnerSlug: partnerSlug ?? null }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        setSubmitError(
-          (err as { error?: string }).error ?? "Something went wrong. Please try again.",
-        );
+        setSubmitError((err as { error?: string }).error ?? "Something went wrong. Please try again.");
         return;
       }
       const { bookingRef: ref } = (await res.json()) as { bookingRef: string };
@@ -218,39 +211,29 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
                 {errors.mobile && <p className="mt-1 font-inter text-xs text-red-500">{errors.mobile.message}</p>}
               </div>
               <div>
-                <label className={labelClass}>Viber Number</label>
-                <input {...register("viber")} placeholder="If different from mobile" className={inputClass} />
+                <label className={labelClass}>Email Address <span className="text-red-500">*</span></label>
+                <input {...register("email")} type="email" placeholder="e.g. maria@example.com" className={inputClass} />
+                {errors.email && <p className="mt-1 font-inter text-xs text-red-500">{errors.email.message}</p>}
               </div>
-            </div>
-
-            <div>
-              <label className={labelClass}>Email Address</label>
-              <input {...register("email")} type="email" placeholder="e.g. maria@example.com" className={inputClass} />
-            </div>
-
-            <div>
-              <label className={labelClass}>Event Location <span className="text-red-500">*</span></label>
-              <input {...register("eventLocation")} placeholder="e.g. Funeraria Paz, Quezon City" className={inputClass} />
-              {errors.eventLocation && <p className="mt-1 font-inter text-xs text-red-500">{errors.eventLocation.message}</p>}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className={labelClass}>Package of Interest <span className="text-red-500">*</span></label>
-                <select {...register("package")} className={inputClass + " bg-white"}>
-                  <option value="">Select a package</option>
-                  <option value="Basic">Basic (50–80 guests)</option>
-                  <option value="Standard">Standard (80–120 guests)</option>
-                  <option value="Premium">Premium (120–200 guests)</option>
-                  <option value="Not sure yet">Not sure yet</option>
-                </select>
-                {errors.package && <p className="mt-1 font-inter text-xs text-red-500">{errors.package.message}</p>}
+                <label className={labelClass}>Exact Venue / Wake Chapel <span className="text-red-500">*</span></label>
+                <input {...register("eventLocation")} placeholder="e.g. Funeraria Paz, Quezon City" className={inputClass} />
+                {errors.eventLocation && <p className="mt-1 font-inter text-xs text-red-500">{errors.eventLocation.message}</p>}
               </div>
               <div>
-                <label className={labelClass}>Estimated Guests <span className="text-red-500">*</span></label>
-                <input {...register("guestCount", { valueAsNumber: true })} type="number" min={1} placeholder="e.g. 80" className={inputClass} />
-                {errors.guestCount && <p className="mt-1 font-inter text-xs text-red-500">{errors.guestCount.message}</p>}
+                <label className={labelClass}>Event Start Time <span className="text-red-500">*</span></label>
+                <input {...register("eventStartTime")} placeholder="e.g. 6:00 PM" className={inputClass} />
+                {errors.eventStartTime && <p className="mt-1 font-inter text-xs text-red-500">{errors.eventStartTime.message}</p>}
               </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>Estimated Number of Guests <span className="text-red-500">*</span></label>
+              <input {...register("guestCount", { valueAsNumber: true })} type="number" min={1} placeholder="e.g. 80" className={inputClass} />
+              {errors.guestCount && <p className="mt-1 font-inter text-xs text-red-500">{errors.guestCount.message}</p>}
             </div>
 
             <div>
@@ -295,7 +278,7 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
             <p className="font-mono text-2xl font-bold tracking-widest text-forest">{bookingRef}</p>
           </div>
           <p className="mx-auto mt-3 max-w-sm font-inter text-sm text-charcoal/60">
-            Screenshot or note this reference. Share it when you message us on Viber so we can confirm your booking quickly.
+            A confirmation email has been sent to your inbox. Our team will review your event details and contact you within <strong className="text-charcoal">1 hour during business hours</strong>.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3">
             <Link
@@ -305,7 +288,7 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
               className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-[#7360F2] px-6 py-3 font-inter text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
               <MessageCircle className="h-4 w-4" />
-              Continue on Viber
+              Message us on Viber
             </Link>
             <Link href="/" className="font-inter text-sm text-charcoal/50 hover:text-charcoal hover:underline">
               ← Back to Home

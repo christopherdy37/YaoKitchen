@@ -13,10 +13,11 @@ model Inquiry {
   fullName      String
   mobile        String
   viber         String?
-  email         String?
-  eventDate     DateTime
-  eventLocation String
-  package       String
+  email         String
+  eventDate      DateTime
+  eventStartTime String
+  eventLocation  String
+  package        String
   guestCount    Int
   notes         String?
   status        String   @default("pending")
