@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5 font-inter text-sm text-white/80">
                 <Mail className="h-4 w-4 shrink-0 text-gold" />
-                info@yaoskitchen.com
+                yaoskitchenph@gmail.com
               </li>
               <li className="flex items-center gap-2.5 font-inter text-sm text-white/80">
                 <MapPin className="h-4 w-4 shrink-0 text-gold" />
