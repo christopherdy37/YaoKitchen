@@ -23,3 +23,15 @@ export async function PATCH(
 
   return NextResponse.json(updated);
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await getSession();
+  if (!session.adminId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { id } = await params;
+  await prisma.partner.delete({ where: { id } });
+  return NextResponse.json({ ok: true });
+}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import QRCode from "qrcode";
-import { Copy, Download, Plus, X, CheckCircle } from "lucide-react";
+import { Copy, Download, Plus, X, CheckCircle, Trash2 } from "lucide-react";
 
 interface Partner {
   id: string;
@@ -70,6 +70,12 @@ export default function PartnersPage() {
     }
     setName(""); setSlug(""); setLocation("");
     setShowModal(false);
+    load();
+  }
+
+  async function deletePartner(partner: Partner) {
+    if (!confirm(`Delete "${partner.name}"? This cannot be undone.`)) return;
+    await fetch(`/api/admin/partners/${partner.id}`, { method: "DELETE" });
     load();
   }
 
@@ -177,6 +183,13 @@ export default function PartnersPage() {
                       >
                         <Download className="h-3.5 w-3.5" />
                         QR
+                      </button>
+                      <button
+                        onClick={() => deletePartner(p)}
+                        className="flex items-center gap-1 rounded px-2 py-1 font-inter text-xs text-red-500 hover:bg-red-50 transition-colors"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        Delete
                       </button>
                     </div>
                   </td>
