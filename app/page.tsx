@@ -3,6 +3,7 @@ import Hero from "@/components/public/Hero";
 import AvailabilityBar from "@/components/public/AvailabilityBar";
 import PackagesPreview from "@/components/public/PackagesPreview";
 import HowItWorks from "@/components/public/HowItWorks";
+import GalleryPreview from "@/components/public/GalleryPreview";
 import FAQs from "@/components/public/FAQs";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function HomePage() {
       <AvailabilityBar />
       <PackagesPreview />
       <HowItWorks />
+      <GalleryPreview />
       <FAQs />
     </>
   );

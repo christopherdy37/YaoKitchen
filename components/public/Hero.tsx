@@ -9,23 +9,37 @@ const TRUST_BADGES = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[460px] overflow-hidden bg-cream lg:min-h-[560px]">
-      {/* Full-bleed background image — lg+ only */}
-      <div className="absolute inset-0 hidden lg:block">
+    <section className="relative min-h-[460px] overflow-hidden bg-cream lg:min-h-[580px]">
+
+      {/* Left image panel */}
+      <div className="absolute inset-y-0 left-0 hidden w-[36%] lg:block">
         <Image
-          src="/images/MEGA_MAY _26_BARTER_YAO_S KITCHEN-L12.jpg"
-          alt="Yao's Kitchen catering spread"
+          src="/images/congee-cup-closeup.jpg"
+          alt="Yao's Kitchen branded congee cup"
           fill
-          className="object-cover object-right"
+          className="object-cover object-center"
           priority
         />
-        {/* Cream gradient fading left → transparent, revealing image on right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cream from-[40%] via-cream/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/50 to-cream" />
       </div>
 
-      {/* Text content */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
-        <div className="flex min-h-[460px] max-w-lg flex-col justify-center py-10 lg:min-h-[560px]">
+      {/* Right image panel */}
+      <div className="absolute inset-y-0 right-0 hidden w-[36%] lg:block">
+        <Image
+          src="/images/full-station-lamps-red.jpg"
+          alt="Yao's Kitchen catering station"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-cream/50 to-cream" />
+      </div>
+
+      {/* Center text content */}
+      <div className="relative z-10 mx-auto flex min-h-[460px] w-full max-w-2xl flex-col items-center justify-center px-6 py-10 text-center lg:min-h-[580px]">
+        <p className="mb-4 font-inter text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+          Premium Wake Catering
+        </p>
         <h1 className="font-playfair text-4xl font-bold leading-tight text-charcoal sm:text-5xl lg:text-[52px]">
           Thoughtful Food.
           <br />
@@ -37,13 +51,13 @@ export default function Hero() {
         </p>
 
         {/* Trust badges */}
-        <div className="mt-10 flex flex-wrap gap-6">
+        <div className="mt-10 flex flex-wrap justify-center gap-6">
           {TRUST_BADGES.map((badge) => (
             <div key={badge.title} className="flex items-start gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-beige">
                 <badge.icon className="h-5 w-5 text-forest" />
               </div>
-              <div className="flex flex-col leading-snug">
+              <div className="flex flex-col leading-snug text-left">
                 <span className="font-inter text-sm font-semibold text-charcoal">
                   {badge.title}
                 </span>
@@ -53,7 +67,6 @@ export default function Hero() {
               </div>
             </div>
           ))}
-        </div>
         </div>
       </div>
     </section>

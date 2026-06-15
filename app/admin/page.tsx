@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     fetch("/api/admin/inquiries")
       .then((r) => r.json())
       .then((data) => {
-        setInquiries(data);
+        setInquiries(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(() => setLoading(false));

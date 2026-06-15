@@ -53,7 +53,7 @@ export default function InquiriesPage() {
     if (pkg !== "all") params.set("package", pkg);
     fetch(`/api/admin/inquiries?${params}`)
       .then((r) => r.json())
-      .then((data) => { setInquiries(data); setLoading(false); })
+      .then((data) => { setInquiries(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, [status, pkg]);
 

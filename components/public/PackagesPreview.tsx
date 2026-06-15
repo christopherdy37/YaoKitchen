@@ -8,7 +8,7 @@ const PACKAGES = [
     subtitle: "Ideal for small gatherings",
     pax: "50 – 80 pax",
     icon: UtensilsCrossed,
-    photo: "/images/MEGA_MAY _26_BARTER_YAO_S KITCHEN-L7.jpg",
+    photo: "/images/two-congee-cups.jpg",
     mostBooked: false,
     inclusions: [
       "Congee station",
@@ -22,7 +22,7 @@ const PACKAGES = [
     subtitle: "Ideal for medium gatherings",
     pax: "80 – 120 pax",
     icon: ChefHat,
-    photo: "/images/MEGA_MAY _26_BARTER_YAO_S KITCHEN-L11.jpg",
+    photo: "/images/overhead-congee-bowl.jpg",
     mostBooked: true,
     inclusions: [
       "Full congee + dimsum selection",
@@ -36,7 +36,7 @@ const PACKAGES = [
     subtitle: "Ideal for large gatherings",
     pax: "120 – 200 pax",
     icon: Crown,
-    photo: "/images/MEGA_MAY _26_BARTER_YAO_S KITCHEN-L14.jpg",
+    photo: "/images/elegant-station-flowers.jpg",
     mostBooked: false,
     inclusions: [
       "Full menu selection",
