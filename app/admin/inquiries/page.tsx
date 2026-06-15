@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { X, ChevronDown } from "lucide-react";
+import { X, ChevronDown, MessageCircle, CheckCircle2 } from "lucide-react";
+
+function toViberLink(mobile: string) {
+  const digits = mobile.replace(/\D/g, "");
+  const ph = digits.startsWith("0") ? "63" + digits.slice(1) : digits;
+  return `viber://chat?number=${ph}`;
+}
 
 interface Inquiry {
   id: string;
@@ -185,19 +191,19 @@ export default function InquiriesPage() {
                   <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Mobile</p>
                   <p className="mt-0.5 font-inter text-sm text-charcoal">{selected.mobile}</p>
                 </div>
-                {selected.viber && (
-                  <div>
-                    <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Viber</p>
-                    <p className="mt-0.5 font-inter text-sm text-charcoal">{selected.viber}</p>
-                  </div>
-                )}
-                {selected.email && (
-                  <div>
-                    <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Email</p>
-                    <p className="mt-0.5 font-inter text-sm text-charcoal">{selected.email}</p>
-                  </div>
-                )}
+                <div>
+                  <p className="font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Email</p>
+                  <p className="mt-0.5 font-inter text-sm text-charcoal break-all">{selected.email}</p>
+                </div>
               </div>
+
+              <a
+                href={toViberLink(selected.mobile)}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#7360F2] py-2.5 font-inter text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Contact on Viber
+              </a>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -232,6 +238,16 @@ export default function InquiriesPage() {
               )}
 
               <hr className="border-gray-100" />
+
+              {editStatus === "pending" && (
+                <button
+                  onClick={() => { setEditStatus("confirmed"); }}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-green-500 py-2.5 font-inter text-sm font-semibold text-green-700 transition-colors hover:bg-green-50"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  Mark as Replied / Done
+                </button>
+              )}
 
               <div>
                 <label className="mb-1.5 block font-inter text-xs font-semibold uppercase tracking-widest text-charcoal/40">Status</label>

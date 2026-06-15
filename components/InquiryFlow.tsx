@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Fragment } from "react";
+import { useSearchParams } from "next/navigation";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useForm } from "react-hook-form";
@@ -87,6 +88,7 @@ interface InquiryFlowProps {
 }
 
 export default function InquiryFlow({ source = "website", partnerSlug }: InquiryFlowProps) {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [blockedDates, setBlockedDates] = useState<Date[]>([]);
@@ -98,6 +100,26 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
   const viberNumber = process.env.NEXT_PUBLIC_VIBER_NUMBER ?? "";
   const viberClean = viberNumber.replace(/\D/g, "");
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<InquiryForm>({ resolver: zodResolver(inquirySchema) });
+
+  // Pre-fill date from ?date= query param (set by AvailabilityBar)
+  useEffect(() => {
+    const dateParam = searchParams.get("date");
+    if (dateParam) {
+      const parsed = new Date(dateParam + "T00:00:00");
+      if (!isNaN(parsed.getTime())) {
+        setSelectedDate(parsed);
+        setValue("eventDate", parsed.toISOString());
+        setStep(2);
+      }
+    }
+  }, [searchParams, setValue]);
+
   useEffect(() => {
     fetch("/api/availability")
       .then((r) => r.json())
@@ -107,13 +129,6 @@ export default function InquiryFlow({ source = "website", partnerSlug }: Inquiry
       .catch(() => setFetchError(true))
       .finally(() => setLoadingDates(false));
   }, []);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<InquiryForm>({ resolver: zodResolver(inquirySchema) });
 
   function handleDateSelect(date: Date | undefined) {
     if (!date) return;

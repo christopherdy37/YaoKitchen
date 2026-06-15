@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import InquiryFlow from "@/components/InquiryFlow";
 
 export default function BookingFlow() {
-  return <InquiryFlow source="website" />;
+  return (
+    <Suspense>
+      <InquiryFlow source="website" />
+    </Suspense>
+  );
 }
