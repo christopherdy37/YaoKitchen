@@ -1,14 +1,19 @@
 import Link from "next/link";
-import { UtensilsCrossed, LayoutDashboard, ClipboardList, CalendarDays, Users, LogOut } from "lucide-react";
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { UtensilsCrossed, ClipboardList, CalendarDays, Users, LogOut } from "lucide-react";
 
 const NAV = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/inquiries", label: "Inquiries", icon: ClipboardList },
   { href: "/admin/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/admin/partners", label: "Partners", icon: Users },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = await getSession();
+  if (!session.adminId) {
+    redirect("/admin/login");
+  }
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}

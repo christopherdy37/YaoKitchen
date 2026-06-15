@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getIronSession } from "iron-session";
-import type { SessionData } from "@/lib/session";
 
-const SESSION_OPTIONS = {
-  cookieName: "yao_admin_session",
-  password: process.env.SESSION_SECRET as string,
-};
-
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const session = await getIronSession<SessionData>(req, res, SESSION_OPTIONS);
-
-  if (!session.adminId) {
+export function middleware(req: NextRequest) {
+  const cookie = req.cookies.get("yao_admin_session");
+  if (!cookie?.value) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
-
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
