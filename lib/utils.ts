@@ -11,9 +11,9 @@ export function generateBookingRef(date: Date = new Date()): string {
   return `YK-${datePart}-${rand}`;
 }
 
-/** Converts a PH mobile number (e.g. "0917-816-7129") to a viber.me link with country code. */
+/** Converts a PH mobile number (e.g. "0917-816-7129") to a viber://chat deep link with country code. */
 export function toViberMeLink(mobile: string): string {
   const digits = mobile.replace(/\D/g, "");
   const ph = digits.startsWith("0") ? "63" + digits.slice(1) : digits;
-  return `https://viber.me/${ph}`;
+  return `viber://chat?number=%2B${ph}`;
 }
