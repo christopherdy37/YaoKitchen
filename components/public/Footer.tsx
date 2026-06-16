@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { UtensilsCrossed, Phone, Mail, MapPin } from "lucide-react";
+import { toViberMeLink } from "@/lib/utils";
 
 const QUICK_LINKS = [
   { label: "Packages", href: "#packages" },
@@ -11,7 +12,6 @@ const QUICK_LINKS = [
 
 export default function Footer() {
   const viberNumber = process.env.NEXT_PUBLIC_VIBER_NUMBER ?? "09XX XXX XXXX";
-  const viberClean = viberNumber.replace(/\D/g, "");
 
   return (
     <footer className="border-t border-white/15 bg-forest text-white">
@@ -92,7 +92,7 @@ export default function Footer() {
               Facebook
             </Link>
             <Link
-              href={`https://viber.me/${viberClean}`}
+              href={toViberMeLink(viberNumber)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#7360F2] transition-opacity hover:opacity-90"

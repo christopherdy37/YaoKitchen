@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { toViberMeLink } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Contact Us — Yao's Kitchen Wake Catering",
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const viberNumber = process.env.NEXT_PUBLIC_VIBER_NUMBER ?? "";
-  const viberClean = viberNumber.replace(/\D/g, "");
 
   return (
     <main>
@@ -48,7 +48,7 @@ export default function ContactPage() {
                   we&apos;ll reply promptly — even late evenings.
                 </p>
                 <Link
-                  href={`https://viber.me/${viberClean}`}
+                  href={toViberMeLink(viberNumber)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 font-inter text-sm font-semibold text-[#7360F2] transition-opacity hover:opacity-90"

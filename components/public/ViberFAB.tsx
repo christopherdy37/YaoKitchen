@@ -1,12 +1,12 @@
 import Link from "next/link";
+import { toViberMeLink } from "@/lib/utils";
 
 export default function ViberFAB() {
   const viberNumber = process.env.NEXT_PUBLIC_VIBER_NUMBER ?? "";
-  const viberClean = viberNumber.replace(/\D/g, "");
 
   return (
     <Link
-      href={`https://viber.me/${viberClean}`}
+      href={toViberMeLink(viberNumber)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on Viber"
